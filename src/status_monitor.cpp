@@ -17,6 +17,7 @@ void StatusMonitor::timerCB(const ros::TimerEvent &event)
         --topic_action_cnt_list_[i];
         if (topic_action_cnt_list_[i] <= 0)
         {
+            topic_action_cnt_list_[i] = -1;
             topic_action_list_[i] = false;
         }
         else
@@ -116,11 +117,13 @@ void StatusMonitor::readTxt()
     std::string file_name;
     nh_->param("node_file", file_name, std::string("nodes.txt"));
     path = path + "/cfg/" + file_name;
-    readNodeList(path);
+    readList(path, node_list_);
     node_action_list_.resize(node_list_.size());
+    nh_->setParam("/status/node_list", node_list_);
+
 }
 
-int StatusMonitor::readNodeList(const std::string &path)
+int StatusMonitor::readList(const std::string &path, std::vector<std::string>& ls)
 {
     std::ifstream fin(path.c_str(), std::ios::in);
     if (!fin)
@@ -133,9 +136,8 @@ int StatusMonitor::readNodeList(const std::string &path)
     {
         std::stringstream ss(line);
         ss >> node;
-        node_list_.push_back(node);
+        ls.push_back(node);
     }
-    nh_->setParam("/status/node_list", node_list_);
     fin.clear();
     fin.close();
     return 0;
@@ -151,4 +153,15 @@ int StatusMonitor::setParam(std::vector<std::string> &nodes, std::vector<bool> &
         nh_->setParam(param_name, isAction[i]);
     }
     return 0;
+}
+
+void StatusMonitor::readScene()
+{
+    std::string path = ros::package::getPath("status_monitor");
+    std::string file_name;
+    nh_->param("node_file", file_name, std::string("scene.txt"));
+    path = path + "/cfg/" + file_name;
+    readList(path, scene_list_);
+    scene_status_list_.resize(node_list_.size());
+    // nh_->setParam("/status/node_list", node_list_);
 }

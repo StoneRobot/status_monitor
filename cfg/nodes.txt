@@ -1,2 +1,11 @@
-/move_group
-/abc
+/UR51/gripper_bridge
+/UR52/gripper_bridge
+/UR51/vision_bridge
+/UR52/vision_bridge
+/pickplace_bridge0
+/pickplace_bridge1
+/dm_bridge
+/hscfsm_bridge
+/cube_bridge
+/motion_bridge
+/perception_bridge

@@ -23,12 +23,13 @@ public:
     int checkNodeStatus();
 private:
     int setParam(std::vector<std::string>& nodes, std::vector<bool>& isAction);
-    int readNodeList(const std::string &path);
-    void timerCB(const ros::TimerEvent& event);
+    int readList(const std::string &path, std::vector<std::string>& ls);
 
     void readTxt();
-
     void setTopicList();
+
+    void readScene();
+    void checkScene();
 
 private:
     ros::Subscriber left_camera_monitor_sub_;
@@ -42,6 +43,7 @@ private:
     void rightCameraMonitorSubCB(const sensor_msgs::CameraInfoConstPtr& msg);
     void leftRobotState(const industrial_msgs::RobotStatusConstPtr& msg);
     void rightRobotState(const industrial_msgs::RobotStatusConstPtr& msg);
+    void timerCB(const ros::TimerEvent& event);
 
 private:
     ros::NodeHandle* nh_;
@@ -53,6 +55,9 @@ private:
     std::vector<std::string> topic_list_;
     std::vector<int> topic_action_cnt_list_;
     std::vector<bool> topic_action_list_;
+
+    std::vector<std::string> scene_list_;
+    std::vector<bool> scene_status_list_;
 };
 
 
