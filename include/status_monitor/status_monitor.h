@@ -18,7 +18,7 @@ class StatusMonitor
 {
 public:
     StatusMonitor(ros::NodeHandle* n);
-    // ~StatusMonitor();
+    ~StatusMonitor();
     
     int checkNodeStatus();
 private:
@@ -48,6 +48,8 @@ private:
 private:
     ros::NodeHandle* nh_;
     ros::Timer timer;
+    const int cnt = 4;
+    const double timer_dur = 1.5;
 
     std::vector<std::string> node_list_;
     std::vector<bool> node_action_list_;
